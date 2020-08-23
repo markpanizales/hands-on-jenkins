@@ -95,9 +95,10 @@ def approve() {
 	// timeout(time:1, unit:'DAYS') {
 	// 	//input('Do you want to deploy to live?')
 	// }
-	timeout(time:30, unit:'SECONDS') {
-		input('Do you want to deploy to live?')
-	}
+	// timeout(time:30, unit:'SECONDS') {
+	// 	input('Do you want to deploy to live?')
+	// }
+	timeout(time:30, unit:'SECONDS')
 
 }
 
