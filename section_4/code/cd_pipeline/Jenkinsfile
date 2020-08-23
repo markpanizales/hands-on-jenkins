@@ -37,9 +37,9 @@ pipeline {
             steps { runUAT(88) }
 		}
 
-        stage("Approve") {
-            steps { approve() }
-		}
+        // stage("Approve") {
+        //     steps { approve() }
+		// }
 
         stage("Deploy - Live") {
             steps { deploy('live') }
