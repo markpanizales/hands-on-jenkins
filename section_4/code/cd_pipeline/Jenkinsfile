@@ -37,8 +37,17 @@ pipeline {
             steps { runUAT(88) }
 		}
 
-        stage("Approve") {
-            steps { approve() }
+        stage("Approve") {			
+            //steps { approve() }
+
+			agent none
+            steps {
+                script {
+                    def deploymentDelay = input id: 'Deploy', message: 'Deploy to production?', submitter: 'rkivisto,admin', parameters: [choice(choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'], description: 'Hours to delay deployment?', name: 'deploymentDelay')]
+                    sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
+                }
+            }
+
 		}
 
         stage("Deploy - Live") {
@@ -90,17 +99,13 @@ def deploy(environment) {
 }
 
 
-def approve() {
+// def approve() {
 
-	// timeout(time:1, unit:'DAYS') {
-	// 	//input('Do you want to deploy to live?')
-	// }
-	// timeout(time:30, unit:'SECONDS') {
-	// 	input('Do you want to deploy to live?')
-	// }
-	timeout(time:30, unit:'SECONDS')
-
-}
+// 	// timeout(time:1, unit:'DAYS') {
+// 	// 	//input('Do you want to deploy to live?')
+// 	// }
+	
+// }
 
 
 def runUnittests() {
