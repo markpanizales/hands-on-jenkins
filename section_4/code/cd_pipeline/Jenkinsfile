@@ -38,17 +38,7 @@ pipeline {
 		}
 
         stage("Approve") {			
-            //steps { approve() }
-
-			agent none
-            steps {
-                script {
-                    //def deploymentDelay = input id: 'Deploy', message: 'Deploy to production?', submitter: 'rkivisto,admin', parameters: [choice(choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'], description: 'Hours to delay deployment?', name: 'deploymentDelay')]
-					//def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin'
-					def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin', parameters: [choice(choices: ['0', '1', '2'], description: 'Hours to delay deployment?', name: 'Proceed with the approval or delay it?')]
-                    sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
-                }
-            }
+            steps { approve() }
 
 		}
 
@@ -100,16 +90,6 @@ def deploy(environment) {
 
 }
 
-
-// def approve() {
-
-// 	// timeout(time:1, unit:'DAYS') {
-// 	// 	//input('Do you want to deploy to live?')
-// 	// }
-	
-// }
-
-
 def runUnittests() {
 	sh "pip3 install --no-cache-dir -r ./section_4/code/cd_pipeline/requirements.txt"
 	sh "python3 section_4/code/cd_pipeline/tests/test_flask_app.py"
@@ -118,4 +98,11 @@ def runUnittests() {
 
 def runUAT(port) {
 	sh "section_4/code/cd_pipeline/tests/runUAT.sh ${port}"
+}
+
+def approve() {
+	script {
+		def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin', parameters: [choice(choices: ['0', '1', '2'], description: 'Hours to delay deployment?', name: 'Proceed with the approval or delay it?')]
+		sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
+	}
 }
