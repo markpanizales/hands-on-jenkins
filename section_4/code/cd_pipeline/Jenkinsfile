@@ -37,9 +37,9 @@ pipeline {
             steps { runUAT(88) }
 		}
 
-        // stage("Approve") {
-        //     steps { approve() }
-		// }
+        stage("Approve") {
+            steps { approve() }
+		}
 
         stage("Deploy - Live") {
             steps { deploy('live') }
@@ -93,7 +93,7 @@ def deploy(environment) {
 def approve() {
 
 	timeout(time:1, unit:'DAYS') {
-		input('Do you want to deploy to live?')
+		//input('Do you want to deploy to live?')
 	}
 
 }
