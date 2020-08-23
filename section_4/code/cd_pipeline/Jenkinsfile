@@ -38,7 +38,7 @@ pipeline {
 		}
 
         stage("Approve") {			
-            steps { approve() }
+            steps { approvalPhase() }
 
 		}
 
@@ -100,7 +100,7 @@ def runUAT(port) {
 	sh "section_4/code/cd_pipeline/tests/runUAT.sh ${port}"
 }
 
-def approve() {
+def approvalPhase() {
 	script {
 		def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin', parameters: [choice(choices: ['0', '1', '2'], description: 'Hours to delay deployment?', name: 'Proceed with the approval or delay it?')]
 		sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
