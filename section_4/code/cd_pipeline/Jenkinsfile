@@ -101,8 +101,11 @@ def runUAT(port) {
 }
 
 def approvalPhase() {
-	script {
-		def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin', parameters: [choice(choices: ['0', '1', '2'], description: 'Hours to delay deployment?', name: 'Proceed with the approval or delay it?')]
-		sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
+	// script {
+	// 	def deploymentDelay = input id: 'Deploy', message: 'Production Approval', submitter: 'admin', parameters: [choice(choices: ['0', '1', '2'], description: 'Hours to delay deployment?', name: 'Proceed with the approval or delay it?')]
+	// 	sleep time: deploymentDelay.toInteger(), unit: 'HOURS'
+	// }
+	timeout(time:1, unit:'DAYS') {
+		input('Do you want to deploy to live?')
 	}
 }
